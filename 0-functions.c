@@ -1,75 +1,34 @@
 #include "main.h"
 
-/** PRINT CHAR **/
-
 /**
- * print_char - Prints a char
- * @types: List a of arguments
- * @buffer: Buffer array to handle print
- * @flags: Calculates active flags
- * @width: Width
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Number of chars printed
+ * print_string - loops through a string and prints
+ * every character
+ * @l: va_list arguments from _printf
+ * @f: pointer to the struct flags that determines
+ * if a flag is passed to _printf
+ * Return: number of char printed
  */
-int print_char(va_list types, char buffer[],
-		int flags, int width, int precision, int size)
+int print_string(va_list l, flags_t *f)
 {
-	char c = va_arg(types, int);
+	char *s = va_arg(l, char *);
 
-	return (handle_write_char(c, buffer, flags, width, precision,size));
+	(void)f;
+
+	if (!s)
+		s = "(null)";
+	return (_puts(s));
 }
-/** PRINT STRING **/
+
 /**
- * print_string - Prints a string
- * @types: List a of arguments
- * @buffer: Buffer array to handle print
- * @flags: Calculates active flags
- * @width: get width.
- * @precision: Precision specification
- * @size: Size specifier
- * Return: Number of chars printed
+ * print_char - prints a character
+ * @l: va_list arguments from _printf
+ * @f: pointer to the struct flags that determines
+ * if a flag is passed to _printf
+ * Return: number of char printed
  */
-int print_string(va_list types, char buffer[],
-		int flags, int width, int precision, int size)
+int print_char(va_list l, flags_t *f)
 {
-	int length = 0, i;
-	char *str = va_arg(types, char *);
-
-	UNUSED(buffer);
-	UNUSED(flags);
-	UNUSED(width);
-	UNUSED(precision);
-	UNUSED(size);
-	if (str == NULL)
-	{
-		str = "(null)";
-		if (precision >= 6)
-			str = "		";
-	}
-
-	while (str[length] != '\0')
-		length++;
-
-	if (precision >= 0 && precision < length)
-		length = precision;
-
-	if (width > length)
-	{
-		if (flags & F_MINUS)
-		{
-			write(1, str[0], length);
-			for (i = width - length; i > 0; i--)
-				write(1, " ", 1);
-			return (width);
-		}
-		else
-		{
-			for (i = width - length; i > 0; i--)
-				write(1, " ", 1);
-			write(1, &str[0], length);
-			return (width)
-		}
-	}
-	return (write(1, str, length));
+	(void)f;
+	_putchar(va_arg(l, int));
+	return (1);
 }
